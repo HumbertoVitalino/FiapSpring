@@ -14,7 +14,8 @@ public class ContactApp {
         EntityManager em = Connection.getEntityManager();
         //create(em);
         //update(em);
-        delete(em);
+        //delete(em);
+        get(em, 5);
     }
 
     public static void create(EntityManager em) {
@@ -52,6 +53,14 @@ public class ContactApp {
 
         em.getTransaction().begin();
         dao.delete(contact);
+        em.getTransaction().commit();
+    }
+
+    public static void get(EntityManager em, int id) {
+        ContactDao dao = new ContactDao(em);
+
+        em.getTransaction().begin();
+        dao.getContact(id);
         em.getTransaction().commit();
     }
 }

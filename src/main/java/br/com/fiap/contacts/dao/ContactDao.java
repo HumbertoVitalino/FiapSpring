@@ -23,4 +23,18 @@ public class ContactDao {
         Contact contactDelete = em.find(Contact.class, contact.getId());
         em.remove(contactDelete);
     }
+
+    public void getContact(int id) {
+        Contact contact = em.find(Contact.class, id);
+
+        if (contact == null) {
+            log("contact not found");
+        }
+
+        log(contact.toString());
+    }
+
+    public void log(String message) {
+        System.out.println(message);
+    }
 }
