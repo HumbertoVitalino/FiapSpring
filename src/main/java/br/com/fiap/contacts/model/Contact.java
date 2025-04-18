@@ -23,6 +23,10 @@ public class Contact {
     @Column(name = "data_of_birth")
     private LocalDate dateOfBirth;
 
+    @ManyToOne
+    @JoinColumn(name = "contactType_id")
+    private TypeContact type;
+
     public Long getId() {
         return id;
     }
@@ -55,6 +59,14 @@ public class Contact {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public TypeContact getType() {
+        return type;
+    }
+
+    public void setType(TypeContact type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Contact{" +
@@ -62,6 +74,7 @@ public class Contact {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
+                ", type=" + type +
                 '}';
     }
 }
