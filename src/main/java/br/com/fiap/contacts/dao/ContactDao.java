@@ -3,6 +3,8 @@ package br.com.fiap.contacts.dao;
 import br.com.fiap.contacts.model.Contact;
 import jakarta.persistence.EntityManager;
 
+import java.util.List;
+
 public class ContactDao {
 
     private EntityManager em;
@@ -32,6 +34,16 @@ public class ContactDao {
         }
 
         log(contact.toString());
+    }
+
+    public List<Contact> getAll() {
+        String query = "SELECT c FROM Contact c ORDER BY name DESC";
+        return em.createQuery(query).getResultList();
+    }
+
+    public List<Contact> getByEmail(String email) {
+        String query = "SELECT c FROM Contact c WHERE c.email = :email";
+        return em.createQuery(query, Contact.class).setParameter("email", email).getResultList();
     }
 
     public void log(String message) {
