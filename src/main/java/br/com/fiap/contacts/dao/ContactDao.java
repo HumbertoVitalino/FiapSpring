@@ -46,6 +46,11 @@ public class ContactDao {
         return em.createQuery(query, Contact.class).setParameter("email", email).getResultList();
     }
 
+    public List<Contact> getByName(String name) {
+        String query = "SELECT c FROM Contact c WHERE c.name = :name";
+        return em.createQuery(query, Contact.class).setParameter("name", name).getResultList();
+    }
+
     public void log(String message) {
         System.out.println(message);
     }
