@@ -1,10 +1,24 @@
 package br.com.fiap.contacts.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity
+@Table(name = "tbl_contacts")
 public class Contact {
 
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "CONTACTS_SEQ"
+    )
+    @SequenceGenerator(
+            name = "CONTACTS_SEQ",
+            sequenceName = "CONTACTS_SEQ",
+            allocationSize = 50
+    )
     private Long id;
     private String name;
     private String email;
