@@ -3,6 +3,7 @@ package br.com.fiap.contacts.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tbl_contacts")
@@ -11,21 +12,17 @@ public class Contact {
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "TBL_CONTACTS_SEQ")
+            generator = "CONTACTS_SEQ"
+    )
     @SequenceGenerator(
-            name = "TBL_CONTACTS_SEQ",
-            sequenceName = "TBL_CONTACTS_SEQ",
-            allocationSize = 1)
+            name = "CONTACTS_SEQ",
+            sequenceName = "CONTACTS_SEQ",
+            allocationSize = 1
+    )
     private Long id;
     private String name;
     private String email;
-
-    @Column(name = "data_of_birth")
-    private LocalDate dateOfBirth;
-
-    @ManyToOne
-    @JoinColumn(name = "contactType_id")
-    private TypeContact type;
+    private LocalDate birthday;
 
     public Long getId() {
         return id;
@@ -51,30 +48,23 @@ public class Contact {
         this.email = email;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+    public LocalDate getBirthday() {
+        return birthday;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public TypeContact getType() {
-        return type;
-    }
-
-    public void setType(TypeContact type) {
-        this.type = type;
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
     @Override
-    public String toString() {
-        return "Contact{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", type=" + type +
-                '}';
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Contact contact = (Contact) o;
+        return Objects.equals(id, contact.id) && Objects.equals(name, contact.name) && Objects.equals(email, contact.email) && Objects.equals(birthday, contact.birthday);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, birthday);
     }
 }
