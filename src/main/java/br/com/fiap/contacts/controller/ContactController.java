@@ -1,8 +1,13 @@
 package br.com.fiap.contacts.controller;
 
+import br.com.fiap.contacts.dto.ContactOutputDto;
+import br.com.fiap.contacts.dto.ContactRequestDto;
 import br.com.fiap.contacts.model.Contact;
 import br.com.fiap.contacts.service.ContactService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,19 +22,19 @@ public class ContactController {
 
     @GetMapping("/contacts")
     @ResponseStatus(HttpStatus.OK)
-    public List<Contact> findAll() {
-        return service.findAll();
+    public Page<ContactOutputDto> findAll(Pageable pageable) {
+        return service.findAll(pageable);
     }
 
     @GetMapping("/contacts/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Contact getById(@PathVariable Long id) {
+    public ContactOutputDto getById(@PathVariable Long id) {
         return service.findById(id);
     }
 
     @PostMapping("/contacts")
     @ResponseStatus(HttpStatus.CREATED)
-    public Contact save(@RequestBody Contact contact) {
+    public ContactOutputDto save(@RequestBody @Valid ContactRequestDto contact) {
         return service.save(contact);
     }
 

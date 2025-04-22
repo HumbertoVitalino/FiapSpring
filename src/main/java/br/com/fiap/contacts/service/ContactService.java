@@ -1,8 +1,13 @@
 package br.com.fiap.contacts.service;
 
+import br.com.fiap.contacts.dto.ContactOutputDto;
+import br.com.fiap.contacts.dto.ContactRequestDto;
 import br.com.fiap.contacts.model.Contact;
 import br.com.fiap.contacts.repository.ContactRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,21 +20,25 @@ public class ContactService  {
     @Autowired
     private ContactRepository contactRepository;
 
-    public Contact save(Contact contact) {
-        return contactRepository.save(contact);
+    public ContactOutputDto save(ContactRequestDto contactRequest) {
+        var contact = new Contact();
+        BeanUtils.copyProperties(contactRequest, contact);
+        return new ContactOutputDto(contactRepository.save(contact));
     }
 
-    public Contact findById(Long id) {
+    public ContactOutputDto findById(Long id) {
 
-        Optional<Contact> contactOptional = contactRepository.findById(id);
-        if (contactOptional.isPresent()) {
-            return contactOptional.get();
+        Optional<Contact> contact = contactRepository.findById(id);
+        if (contact.isPresent()) {
+            return new ContactOutputDto(contact.get());
         }
-        return null;
+        throw new RuntimeException("Unable to find contact with id: " + id);
     }
 
-    public List<Contact> findAll() {
-        return contactRepository.findAll();
+    public Page<ContactOutputDto> findAll(Pageable pageable) {
+        return contactRepository
+                .findAll(pageable)
+                .map(ContactOutputDto::new);
     }
 
     public void deleteById(Long id) {
@@ -37,9 +46,9 @@ public class ContactService  {
 
         if (contactOptional.isPresent()) {
             contactRepository.delete(contactOptional.get());
-        } else {
-            throw new RuntimeException("Contact not found!");
         }
+
+        throw new RuntimeException("Contact not found!");
     }
 
     public List<Contact> findByBirthdayBetween(LocalDate startDate, LocalDate endDate) {
