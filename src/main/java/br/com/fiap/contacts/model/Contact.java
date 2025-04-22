@@ -22,6 +22,7 @@ public class Contact {
     private Long id;
     private String name;
     private String email;
+    private String password;
     private LocalDate birthday;
 
     public Long getId() {
@@ -48,6 +49,14 @@ public class Contact {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public LocalDate getBirthday() {
         return birthday;
     }
@@ -60,11 +69,15 @@ public class Contact {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Contact contact = (Contact) o;
-        return Objects.equals(id, contact.id) && Objects.equals(name, contact.name) && Objects.equals(email, contact.email) && Objects.equals(birthday, contact.birthday);
+        return Objects.equals(id, contact.id) &&
+                Objects.equals(name, contact.name) &&
+                Objects.equals(email, contact.email) &&
+                Objects.equals(password, contact.password) &&
+                Objects.equals(birthday, contact.birthday);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, birthday);
+        return Objects.hash(id, name, email, password, birthday);
     }
 }
