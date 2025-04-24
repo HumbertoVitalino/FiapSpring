@@ -11,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api")
 public class ContactController {
@@ -38,7 +36,7 @@ public class ContactController {
         return service.save(contact);
     }
 
-    @PutMapping
+    @PutMapping("/contacts")
     @ResponseStatus(HttpStatus.OK)
     public Contact update(Contact contact) {
         return service.update(contact);
