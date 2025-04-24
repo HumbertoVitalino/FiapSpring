@@ -1,9 +1,8 @@
 package br.com.fiap.contacts.controller;
-
-import br.com.fiap.contacts.dto.ContactOutputDto;
-import br.com.fiap.contacts.dto.ContactRequestDto;
-import br.com.fiap.contacts.model.Contact;
-import br.com.fiap.contacts.service.ContactService;
+import br.com.fiap.contacts.dto.UserOutputDto;
+import br.com.fiap.contacts.dto.UserRegisterDto;
+import br.com.fiap.contacts.model.User;
+import br.com.fiap.contacts.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,36 +12,36 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-public class ContactController {
+public class UserController {
 
     @Autowired
-    private ContactService service;
+    private UserService service;
 
-    @GetMapping("/contacts")
+    @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
-    public Page<ContactOutputDto> findAll(Pageable pageable) {
+    public Page<UserOutputDto> findAll(Pageable pageable) {
         return service.findAll(pageable);
     }
 
-    @GetMapping("/contacts/{id}")
+    @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ContactOutputDto getById(@PathVariable Long id) {
+    public UserOutputDto getById(@PathVariable Long id) {
         return service.findById(id);
     }
 
-    @PostMapping("/contacts")
+    @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public ContactOutputDto save(@RequestBody @Valid ContactRequestDto contact) {
-        return service.save(contact);
+    public UserOutputDto save(@RequestBody @Valid UserRegisterDto user) {
+        return service.create(user);
     }
 
-    @PutMapping("/contacts")
+    @PutMapping("/users")
     @ResponseStatus(HttpStatus.OK)
-    public Contact update(Contact contact) {
-        return service.update(contact);
+    public User update(User user) {
+        return service.update(user);
     }
 
-    @DeleteMapping("/contacts/{id}")
+    @DeleteMapping("/users/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         service.deleteById(id);
