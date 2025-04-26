@@ -1,5 +1,6 @@
 package br.com.fiap.contacts.controller;
 
+import br.com.fiap.contacts.dto.LoginDto;
 import br.com.fiap.contacts.dto.UserOutputDto;
 import br.com.fiap.contacts.dto.UserRegisterDto;
 import br.com.fiap.contacts.service.UserService;
@@ -23,7 +24,7 @@ public class AuthController {
     private UserService service;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid UserRegisterDto userDto) {
+    public ResponseEntity login(@RequestBody @Valid LoginDto userDto) {
         UsernamePasswordAuthenticationToken userPassword =
                 new UsernamePasswordAuthenticationToken(
                         userDto.email(),
