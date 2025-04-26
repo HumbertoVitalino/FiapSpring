@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,8 +20,12 @@ public class UserService {
     private UserRepository repository;
 
     public UserOutputDto create(UserRegisterDto user) {
+
+        String cptPassword = new BCryptPasswordEncoder().encode(user.password());
         var entity = new User();
         BeanUtils.copyProperties(user, entity);
+
+        entity.setPassword(cptPassword);
         return new UserOutputDto(repository.save(entity));
     }
 
